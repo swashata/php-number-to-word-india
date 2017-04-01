@@ -160,7 +160,7 @@ class NTW_India {
 			$dot = explode( '.', $number );
 			// If there is some integer after the dot and not just zero
 			// then we consider adding XXX/1000 to it
-			if ( $dot[1] > 0 ) {
+			if ( isset( $dot[1] ) && $dot[1] > 0 ) {
 				// We dont need the and here
 				$this->first_call = false;
 				return $this->convert_number( $dot[0] ) . ' ' . $this->and . ' ' . intval( $dot[1] ) . '/1' . str_repeat( '0', strlen( $dot[1] ) );
