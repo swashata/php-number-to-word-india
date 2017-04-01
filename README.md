@@ -67,6 +67,35 @@ Converts any number to word including decimal values. Decimals are converted as
 Returns `string` The word value of the number. All of the words have uppercased
 first letter.
 
+### `num_to_wd_small`
+
+Converts numbers smaller than 100 into words. If the number is greater than 99
+then it simply calls `num_to_word`.
+
+Use this when you know your number is lesser than 100 to reduce memory usage.
+
+#### Parameters
+
+* `$number`: *integer* The number whose word value would be generated. It does
+ not accepts floating values and will convert to integer if given.
+
+#### Return
+
+Returns `string` The word value of the number. All of the words have uppercased
+first letter.
+
+## Translation
+
+To translate, kindly replace the public variables:
+
+* `$hundred`: Hundred word. Defaults *'Hundred'*.
+* `$thousand`: Thousand word. Defaults *'Thousand'*.
+* `$lakh`: Lakh word. Defaults *'Lakh'*.
+* `$crore`: Crore word. Defaults *'Crore'*.
+* `$and`: And word. Defaults *'And'*.
+* `$num_to_wd`: Contains mapping of numbers to words. From `0` to `20` and multiple
+ of `10` upto `90`.
+
 ## Unit Test
 
 Unit test is available through composer.
