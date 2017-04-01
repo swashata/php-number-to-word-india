@@ -34,6 +34,12 @@ class NTW_India {
 	 */
 	public $crore = 'Crore';
 	/**
+	 * And word
+	 *
+	 * @var string
+	 */
+	public $and = 'And';
+	/**
 	 * Number to Words
 	 *
 	 * These are the presets we will need
@@ -157,7 +163,7 @@ class NTW_India {
 			if ( $dot[1] > 0 ) {
 				// We dont need the and here
 				$this->first_call = false;
-				return $this->convert_number( $dot[0] ) . ' And ' . intval( $dot[1] ) . '/1' . str_repeat( '0', strlen( $dot[1] ) );
+				return $this->convert_number( $dot[0] ) . ' ' . $this->and . ' ' . intval( $dot[1] ) . '/1' . str_repeat( '0', strlen( $dot[1] ) );
 			} else {
 				return $this->convert_number( $dot[0] );
 			}
@@ -201,7 +207,7 @@ class NTW_India {
 
 		// If more than lakh
 		if ( $lakh_quotient > 0 ) {
-			$word['lakh'] = $this->num_to_ind( $lakh_quotient );
+			$word['lakh'] = $this->num_to_wd_small( $lakh_quotient );
 		}
 
 		// Calculate thousand
@@ -210,7 +216,7 @@ class NTW_India {
 
 		// If more than thousand
 		if ( $thousand_quotient > 0 ) {
-			$word['thousand'] = $this->num_to_ind( $thousand_quotient );
+			$word['thousand'] = $this->num_to_wd_small( $thousand_quotient );
 		}
 
 		// Calculate hundred
@@ -219,12 +225,12 @@ class NTW_India {
 
 		// If more than hundred
 		if ( $hundred_quotient > 0 ) {
-			$word['hundred'] = $this->num_to_ind( $hundred_quotient );
+			$word['hundred'] = $this->num_to_wd_small( $hundred_quotient );
 		}
 
 		// If less than hundred but more than zero
 		if ( $hundred_remainder > 0 ) {
-			$word['zero'] = $this->num_to_ind( $hundred_remainder );
+			$word['zero'] = $this->num_to_wd_small( $hundred_remainder );
 		}
 
 		// Now finalize the return
@@ -232,7 +238,7 @@ class NTW_India {
 		foreach ( $word as $pos => $val ) {
 			if ( 'zero' == $pos ) {
 				if ( true == $this->first_call && $number > 99 ) {
-					$return .= ' And';
+					$return .= ' ' . $this->and;
 				}
 				$return .= ' ' . $val;
 			} else {
@@ -255,7 +261,7 @@ class NTW_India {
 	 *
 	 * @return     string  Word value of the number
 	 */
-	public function num_to_ind( $number ) {
+	public function num_to_wd_small( $number ) {
 		$number = floor( abs( $number ) );
 
 		// Check if number is greater than 99
