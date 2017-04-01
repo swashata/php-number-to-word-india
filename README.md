@@ -29,7 +29,7 @@ require_once 'ntwIndia/class-ntw-india.php';
 
 ```php
 <?php
-$ntw = new new \ntwIndia\NTW_India();
+$ntw = new \ntwIndia\NTW_India();
 ```
 
 **Convert values**
