@@ -49,6 +49,57 @@ echo $ntw->num_to_wd_small( 99 );
 // Will print Ninty Nine
 ```
 
+## Methods
+
+Two methods are available
+
+### `num_to_word`
+
+Converts any number to word including decimal values. Decimals are converted as
+`... And 986/1000`. You will mostly need to call this method.
+
+#### Parameters
+
+* `$number`: *integer|float* The number whose word value would be generated.
+
+#### Return
+
+Returns `string` The word value of the number. All of the words have uppercased
+first letter.
+
 ## Unit Test
 
-*TODO*
+Unit test is available through composer.
+
+```bash
+$ cd /path/to/php-number-to-word-india/
+$ composer update
+$ vendor/bin/phpunit
+```
+
+It will output something like this.
+
+![Test Case](test-case.png)
+
+You are more than welcome to add more test cases and send me a pull request.
+
+Kindly follow [Contribution Guide](CONTRIBUTING.md)
+
+## License
+
+PHP Number to Word in Indian Style is licensed under GPLv3
+
+    Copyright (C) 2017  Swashata Ghosh
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>
