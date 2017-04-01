@@ -77,36 +77,42 @@ class NTW_India {
 	 * Crore Divisor
 	 *
 	 * @var        integer
+	 * @access     private
 	 */
-	public $crore_divisor = 10000000;
+	private $crore_divisor = 10000000;
 	/**
 	 * Lakh Divisor
 	 *
 	 * @var        integer
+	 * @access     private
 	 */
-	public $lakh_divisor = 100000;
+	private $lakh_divisor = 100000;
 	/**
 	 * Thousand Divisor
 	 *
 	 * @var        integer
+	 * @access     private
 	 */
-	public $thousand_divisor = 1000;
+	private $thousand_divisor = 1000;
 	/**
 	 * Hundred Divisor
 	 *
 	 * @var        integer
+	 * @access     private
 	 */
-	public $hundred_divisor = 100;
+	private $hundred_divisor = 100;
 	/**
 	 * Ten Divisor
 	 *
 	 * @var        integer
+	 * @access     private
 	 */
-	public $ten_divisor = 10;
+	private $ten_divisor = 10;
 	/**
 	 * A flag to properly append AND to the last hundred word
 	 *
 	 * @var        boolean
+	 * @access     private
 	 */
 	private $first_call = false;
 
@@ -160,6 +166,17 @@ class NTW_India {
 		return $this->convert_number( $number );
 	}
 
+	/**
+	 * Converts the number into word by breaking into quotients and remainders
+	 *
+	 * All the calculations happen here and it shouldn't be called directly
+	 *
+	 * @access     private
+	 *
+	 * @param      integer  $number  The number
+	 *
+	 * @return     string   Converted word value of the number
+	 */
 	private function convert_number( $number ) {
 		// Init the return
 		$word = array();
@@ -228,9 +245,15 @@ class NTW_India {
 	/**
 	 * Converts a small number to its word value
 	 *
-	 * The number has to be less than 100 otherwise it will generate error
+	 * The number has to be less than 100 otherwise it will call convert_number
+	 * method
 	 *
-	 * @param      <type>  $number  The number
+	 * It can be called when you know the number is less than 100 to reduce
+	 * memory and calculation
+	 *
+	 * @param      int     $number  The number
+	 *
+	 * @return     string  Word value of the number
 	 */
 	public function num_to_ind( $number ) {
 		$number = floor( abs( $number ) );
