@@ -231,7 +231,7 @@ class NTW_India {
 		$return = '';
 		foreach ( $word as $pos => $val ) {
 			if ( 'zero' == $pos ) {
-				if ( true == $this->first_call ) {
+				if ( true == $this->first_call && $number > 99 ) {
 					$return .= ' And';
 				}
 				$return .= ' ' . $val;
