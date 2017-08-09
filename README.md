@@ -1,5 +1,7 @@
 # Number to Words PHP Class - Indian Version
 
+[![Build Status](https://travis-ci.org/swashata/php-number-to-word-india.svg?branch=master)](https://travis-ci.org/swashata/php-number-to-word-india) [![Code Climate](https://codeclimate.com/github/swashata/php-number-to-word-india/badges/gpa.svg)](https://codeclimate.com/github/swashata/php-number-to-word-india) [![Test Coverage](https://codeclimate.com/github/swashata/php-number-to-word-india/badges/coverage.svg)](https://codeclimate.com/github/swashata/php-number-to-word-india/coverage) [![Issue Count](https://codeclimate.com/github/swashata/php-number-to-word-india/badges/issue_count.svg)](https://codeclimate.com/github/swashata/php-number-to-word-india)
+
 This class converts numbers to Indian-English Words. Works for all kinds of
 numbers including floats. A few examples.
 
