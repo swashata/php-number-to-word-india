@@ -12,6 +12,8 @@ numbers including floats. A few examples.
 
 ## Usage
 
+### Manual Installation
+
 **Clone this repository using git**
 
 ```bash
@@ -22,7 +24,7 @@ git clone git@github.com:swashata/php-number-to-word-india.git
 
 ```php
 <?php
-require_once 'ntwIndia/class-ntw-india.php';
+require_once 'src/NTWIndia.php';
 ```
 
 **Create an instance**
@@ -36,16 +38,16 @@ $ntw = new \ntwIndia\NTW_India();
 
 ```php
 <?php
-echo $ntw->num_to_word( 3104007200 );
+echo $ntw->numToWord( 3104007200 );
 // Will print Three Hundred Ten Crore Forty Lakh Seven Thousand Two Hundred
 ```
 
-If your number is always less than 100, then use `num_to_wd_small` method to
+If your number is always less than 100, then use `numToWordSmall` method to
 reduce memory usage.
 
 ```php
 <?php
-echo $ntw->num_to_wd_small( 99 );
+echo $ntw->numToWordSmall( 99 );
 // Will print Ninty Nine
 ```
 
@@ -53,7 +55,7 @@ echo $ntw->num_to_wd_small( 99 );
 
 Two methods are available
 
-### `num_to_word`
+### `numToWord`
 
 Converts any number to word including decimal values. Decimals are converted as
 `... And 986/1000`. You will mostly need to call this method.
@@ -67,10 +69,10 @@ Converts any number to word including decimal values. Decimals are converted as
 Returns `string` The word value of the number. All of the words have uppercased
 first letter.
 
-### `num_to_wd_small`
+### `numToWordSmall`
 
 Converts numbers smaller than 100 into words. If the number is greater than 99
-then it simply calls `num_to_word`.
+then it simply calls `numToWord`.
 
 Use this when you know your number is lesser than 100 to reduce memory usage.
 
@@ -93,7 +95,7 @@ To translate, kindly replace the public variables:
 * `$lakh`: Lakh word. Defaults *'Lakh'*.
 * `$crore`: Crore word. Defaults *'Crore'*.
 * `$and`: And word. Defaults *'And'*.
-* `$num_to_wd`: Contains mapping of numbers to words. From `0` to `20` and multiple
+* `$numToWord`: Contains mapping of numbers to words. From `0` to `20` and multiple
  of `10` upto `90`.
 
 ## Unit Test

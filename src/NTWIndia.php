@@ -1,5 +1,6 @@
 <?php
-namespace ntwIndia;
+namespace NTWIndia;
+
 /**
  * Number to Words in Indian Version
  *
@@ -8,7 +9,7 @@ namespace ntwIndia;
  * @author Swashata Ghosh <swashata@iptms.co>
  * @license GPL-v3.0
  */
-class NTW_India {
+class NTWIndia {
 	/**
 	 * Hundred Word
 	 *
@@ -48,7 +49,7 @@ class NTW_India {
 	 *
 	 * @var        array
 	 */
-	public $num_to_wd = array(
+	public $numToWord = array(
 		'0'  => 'Zero',
 		'1'  => 'One',
 		'2'  => 'Two',
@@ -85,42 +86,35 @@ class NTW_India {
 	 * @var        integer
 	 * @access     private
 	 */
-	private $crore_divisor = 10000000;
+	private $croreDivisor = 10000000;
 	/**
 	 * Lakh Divisor
 	 *
 	 * @var        integer
 	 * @access     private
 	 */
-	private $lakh_divisor = 100000;
+	private $lakhDivisor = 100000;
 	/**
 	 * Thousand Divisor
 	 *
 	 * @var        integer
 	 * @access     private
 	 */
-	private $thousand_divisor = 1000;
+	private $thousandDivisor = 1000;
 	/**
 	 * Hundred Divisor
 	 *
 	 * @var        integer
 	 * @access     private
 	 */
-	private $hundred_divisor = 100;
-	/**
-	 * Ten Divisor
-	 *
-	 * @var        integer
-	 * @access     private
-	 */
-	private $ten_divisor = 10;
+	private $hundredDivisor = 100;
 	/**
 	 * A flag to properly append AND to the last hundred word
 	 *
 	 * @var        boolean
 	 * @access     private
 	 */
-	private $first_call = false;
+	private $firstCall = false;
 
 	/**
 	 * Converts a number into words value following indian number system with
@@ -129,19 +123,20 @@ class NTW_India {
 	 * The number supplied has to be greater than 0. Negative numbers aren't
 	 * supported.
 	 *
-	 * @param      integer|float  $number  The number to convert
+	 * @param      integer|float      $number  The number to convert
 	 *
-	 * @return     string         The covnerted value
+	 * @throws     NTWIndiaException  When passed variable is not numeric
+	 *
+	 * @return     string             The covnerted value
 	 */
-	public function num_to_word( $number ) {
+	public function numToWord( $number ) {
 		/**
 		 * Check if a valid number is passed
 		 *
 		 * If not then log a warning
 		 */
 		if ( ! is_numeric( $number ) ) {
-			trigger_error( 'Valid number not given.', E_USER_WARNING );
-			return '';
+			throw new Exception\NTWIndiaException( 'Valid number not given' );
 		}
 
 		// Convert to the absolute value
@@ -149,11 +144,11 @@ class NTW_India {
 
 		// Check if zero
 		if ( 0 == $number ) {
-			return $this->num_to_wd['0'];
+			return $this->numToWord['0'];
 		}
 
 		// Change flag
-		$this->first_call = true;
+		$this->firstCall = true;
 
 		// Special consideration for floats
 		if ( is_float( $number ) ) {
@@ -162,14 +157,14 @@ class NTW_India {
 			// then we consider adding XXX/1000 to it
 			if ( isset( $dot[1] ) && $dot[1] > 0 ) {
 				// We dont need the and here
-				$this->first_call = false;
-				return $this->convert_number( $dot[0] ) . ' ' . $this->and . ' ' . intval( $dot[1] ) . '/1' . str_repeat( '0', strlen( $dot[1] ) );
+				$this->firstCall = false;
+				return $this->convertNumber( $dot[0] ) . ' ' . $this->and . ' ' . intval( $dot[1] ) . '/1' . str_repeat( '0', strlen( $dot[1] ) );
 			} else {
-				return $this->convert_number( $dot[0] );
+				return $this->convertNumber( $dot[0] );
 			}
 		}
 
-		return $this->convert_number( $number );
+		return $this->convertNumber( $number );
 	}
 
 	/**
@@ -183,61 +178,61 @@ class NTW_India {
 	 *
 	 * @return     string   Converted word value of the number
 	 */
-	private function convert_number( $number ) {
+	private function convertNumber( $number ) {
 		// Init the return
 		$word = array();
 		// Lets start with crore
-		$crore_quotient = floor( $number / $this->crore_divisor );
-		$crore_remainder = $number % $this->crore_divisor;
+		$crore_quotient = floor( $number / $this->croreDivisor );
+		$crore_remainder = $number % $this->croreDivisor;
 
 		// If more than crore
 		if ( $crore_quotient > 0 ) {
 			// Modify the flag
-			$first_call = $this->first_call;
-			$this->first_call = false;
-			$word['crore'] = $this->convert_number( $crore_quotient );
+			$firstCall = $this->firstCall;
+			$this->firstCall = false;
+			$word['crore'] = $this->convertNumber( $crore_quotient );
 			// Swap the flag
-			$this->first_call = $first_call;
-			unset( $first_call );
+			$this->firstCall = $firstCall;
+			unset( $firstCall );
 		}
 
 		// Calculate Lakh
-		$lakh_quotient = floor( $crore_remainder / $this->lakh_divisor );
-		$lakh_remainder = $crore_remainder % $this->lakh_divisor;
+		$lakh_quotient = floor( $crore_remainder / $this->lakhDivisor );
+		$lakh_remainder = $crore_remainder % $this->lakhDivisor;
 
 		// If more than lakh
 		if ( $lakh_quotient > 0 ) {
-			$word['lakh'] = $this->num_to_wd_small( $lakh_quotient );
+			$word['lakh'] = $this->numToWordSmall( $lakh_quotient );
 		}
 
 		// Calculate thousand
-		$thousand_quotient = floor( $lakh_remainder / $this->thousand_divisor );
-		$thousand_remainder = $lakh_remainder % $this->thousand_divisor;
+		$thousand_quotient = floor( $lakh_remainder / $this->thousandDivisor );
+		$thousand_remainder = $lakh_remainder % $this->thousandDivisor;
 
 		// If more than thousand
 		if ( $thousand_quotient > 0 ) {
-			$word['thousand'] = $this->num_to_wd_small( $thousand_quotient );
+			$word['thousand'] = $this->numToWordSmall( $thousand_quotient );
 		}
 
 		// Calculate hundred
-		$hundred_quotient = floor( $thousand_remainder / $this->hundred_divisor );
-		$hundred_remainder = $thousand_remainder % $this->hundred_divisor;
+		$hundred_quotient = floor( $thousand_remainder / $this->hundredDivisor );
+		$hundred_remainder = $thousand_remainder % $this->hundredDivisor;
 
 		// If more than hundred
 		if ( $hundred_quotient > 0 ) {
-			$word['hundred'] = $this->num_to_wd_small( $hundred_quotient );
+			$word['hundred'] = $this->numToWordSmall( $hundred_quotient );
 		}
 
 		// If less than hundred but more than zero
 		if ( $hundred_remainder > 0 ) {
-			$word['zero'] = $this->num_to_wd_small( $hundred_remainder );
+			$word['zero'] = $this->numToWordSmall( $hundred_remainder );
 		}
 
 		// Now finalize the return
 		$return = '';
 		foreach ( $word as $pos => $val ) {
 			if ( 'zero' == $pos ) {
-				if ( true == $this->first_call && $number > 99 ) {
+				if ( true == $this->firstCall && $number > 99 ) {
 					$return .= ' ' . $this->and;
 				}
 				$return .= ' ' . $val;
@@ -251,47 +246,53 @@ class NTW_India {
 	/**
 	 * Converts a small number to its word value
 	 *
-	 * The number has to be less than 100 otherwise it will call convert_number
+	 * The number has to be less than 100 otherwise it will call convertNumber
 	 * method
 	 *
 	 * It can be called when you know the number is less than 100 to reduce
 	 * memory and calculation
 	 *
-	 * @param      int     $number  The number
+	 * @param      int                                   $number  The number
 	 *
-	 * @return     string  Word value of the number
+	 * @throws     NTWIndia\Exception\NTWIndiaException  When a valid number is not given
+	 *
+	 * @return     string                                Word value of the number
 	 */
-	public function num_to_wd_small( $number ) {
+	public function numToWordSmall( $number ) {
+		// Check if number is numeric
+		if ( ! is_numeric( $number ) ) {
+			throw new Exception\NTWIndiaException( 'Valid number not given.' );
+		}
 		$number = floor( abs( $number ) );
 
 		// Check if number is greater than 99
 		// If so, then further breaking is needed
 		if ( $number > 99 ) {
-			return $this->convert_number( $number );
+			return $this->convertNumber( $number );
 		}
 
 		// Calculate the last character beforehand
-		$lc = substr( "$number", -1 );
+		$lastCharacter = substr( "$number", -1 );
 
 		// Check if direct mapping is possible
-		if ( isset( $this->num_to_wd[ "$number" ] ) ) {
-			return $this->num_to_wd[ "$number" ];
+		if ( isset( $this->numToWord[ "$number" ] ) ) {
+			return $this->numToWord[ "$number" ];
 		} elseif ( $number < 30 ) {
-			return $this->num_to_wd['20'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['20'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 40 ) {
-			return $this->num_to_wd['30'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['30'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 50 ) {
-			return $this->num_to_wd['40'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['40'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 60 ) {
-			return $this->num_to_wd['50'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['50'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 70 ) {
-			return $this->num_to_wd['60'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['60'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 80 ) {
-			return $this->num_to_wd['70'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['70'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 90 ) {
-			return $this->num_to_wd['80'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['80'] . ' ' . $this->numToWord[ $lastCharacter ];
 		} elseif ( $number < 100 ) {
-			return $this->num_to_wd['90'] . ' ' . $this->num_to_wd[ $lc ];
+			return $this->numToWord['90'] . ' ' . $this->numToWord[ $lastCharacter ];
 		}
 	}
 }

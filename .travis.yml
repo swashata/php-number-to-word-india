@@ -1,0 +1,63 @@
+# Tell Travis CI we are using PHP
+language: php
+
+# The platforms you wants to test on
+os:
+  - linux
+
+# git configs
+git:
+  depth: 1
+
+# codeclimate
+env:
+  global:
+    - CC_TEST_REPORTER_ID=5308141f77638e360604f49a1c0066d79a4870c26c9fb68523d790b36df5174b
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+
+# Define the php versions against we want to test our code
+php:
+    - 7.0
+    - 7.1
+    - 5.6
+
+matrix:
+  fast_finish: true
+
+
+# We don't want to run linux commands as super user
+sudo: false
+
+# Get the codeclimate stuff
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+# Composer package installation
+install:
+  # Install composer packages, will also trigger dump-autoload
+  - travis_retry composer install --no-interaction
+
+# Testing the app (see phpunit.xml), generating Code Coverage report
+script:
+  - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+#after_failure:
+
+# Tell Travis CI to monitor only 'master' branch
+branches:
+  only: master
+
+# Configure email notifications
+notifications:
+     email:
+        on_success: never
+        on_failure: always
+
+# You can delete cache using travis-ci web interface
+cache:
+  directories:
+  - vendor
+  - $HOME/.cache/composer

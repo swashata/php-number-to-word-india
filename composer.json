@@ -1,4 +1,10 @@
 {
+	"name": "ntwindia/ntwindia",
+	"type": "library",
+	"description": "Convert number to word in Indian English.",
+	"keywords": ["number", "words", "number-to-words"],
+	"homepage": "https://github.com/swashata/php-number-to-word-india",
+	"license": "GPL-3.0",
 	"require": {
 	},
 	"require-dev": {
@@ -6,7 +12,7 @@
 	},
 	"autoload": {
 	   "psr-4": {
-		   "ntwIndia\\": "src/"
+		   "NTWIndia\\": "src/"
 	   }
 	}
 }
