@@ -51,6 +51,15 @@ class NTWIndiaTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( $word, $this->ntw->numToWord( $num ) );
 	}
 
+	public function testFloatingValue() {
+		$num = 100.24;
+		$word = 'One Hundred And 24/100';
+		$this->assertEquals( $word, $this->ntw->numToWord( $num ) );
+		$num = 123.00;
+		$word = 'One Hundred And Twenty Three';
+		$this->assertEquals( $word, $this->ntw->numToWord( $num ) );
+	}
+
 	public function testNumToWdSmall() {
 		$num_to_wd = $this->getNumToWord();
 		foreach ( $num_to_wd as $num => $wd ) {
@@ -59,17 +68,31 @@ class NTWIndiaTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
-	 * @expectedException NTWIndia\Exception\NTWIndiaException
+	 * @expectedException NTWIndia\Exception\NTWIndiaInvalidNumber
 	 */
 	public function testNumToWordException() {
 		$this->ntw->numToWord( 'foo' );
 	}
 
 	/**
-	 * @expectedException NTWIndia\Exception\NTWIndiaException
+	 * @expectedException NTWIndia\Exception\NTWIndiaNumberOverflow
+	 */
+	public function testNumToWordOverflowException() {
+		$this->ntw->numToWord( 92233720368547758070 );
+	}
+
+	/**
+	 * @expectedException NTWIndia\Exception\NTWIndiaInvalidNumber
 	 */
 	public function testNumToWordSmallException() {
 		$this->ntw->numToWordSmall( 'bar' );
+	}
+
+	/**
+	 * @expectedException NTWIndia\Exception\NTWIndiaNumberOverflow
+	 */
+	public function testNumToWordSmallOverflowException() {
+		$this->ntw->numToWordSmall( 200 );
 	}
 
 	private function getNumToWord() {

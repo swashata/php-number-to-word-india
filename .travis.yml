@@ -18,6 +18,7 @@ env:
 # Define the php versions against we want to test our code
 php:
     - 7.0
+    - 7.1
 
 matrix:
   fast_finish: true
@@ -40,9 +41,9 @@ install:
 # Testing the app (see phpunit.xml), generating Code Coverage report
 script:
   - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
-#after_failure:
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 # Tell Travis CI to monitor only 'master' branch
 branches:

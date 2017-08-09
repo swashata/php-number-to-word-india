@@ -123,11 +123,13 @@ class NTWIndia {
 	 * The number supplied has to be greater than 0. Negative numbers aren't
 	 * supported.
 	 *
-	 * @param      integer|float      $number  The number to convert
+	 * @param      integer|float                     $number  The number to
+	 *                                                        convert
 	 *
-	 * @throws     NTWIndiaException  When passed variable is not numeric
+	 * @throws     Exception\NTWIndiaInvalidNumber   When passed variable is not numeric
+	 * @throws     Exception\NTWIndiaNumberOverflow  When passed number is greater than system maximum
 	 *
-	 * @return     string             The covnerted value
+	 * @return     string                            The covnerted value
 	 */
 	public function numToWord( $number ) {
 		/**
@@ -136,7 +138,12 @@ class NTWIndia {
 		 * If not then log a warning
 		 */
 		if ( ! is_numeric( $number ) ) {
-			throw new Exception\NTWIndiaException( 'Valid number not given' );
+			throw new Exception\NTWIndiaInvalidNumber( 'Valid number not given.' );
+		}
+
+		// Check if number is exceeding the system maximum
+		if ( $number > PHP_INT_MAX ) {
+			throw new Exception\NTWIndiaNumberOverflow( 'Number is greater than system maximum.' );
 		}
 
 		// Convert to the absolute value
@@ -252,23 +259,24 @@ class NTWIndia {
 	 * It can be called when you know the number is less than 100 to reduce
 	 * memory and calculation
 	 *
-	 * @param      int                                   $number  The number
+	 * @param      int                               $number  The number
 	 *
-	 * @throws     NTWIndia\Exception\NTWIndiaException  When a valid number is not given
+	 * @throws     Exception\NTWIndiaInvalidNumber   When a valid number is not given
+	 * @throws     Exception\NTWIndiaNumberOverflow  When number is greater than 99
 	 *
-	 * @return     string                                Word value of the number
+	 * @return     string                            Word value of the number
 	 */
 	public function numToWordSmall( $number ) {
 		// Check if number is numeric
 		if ( ! is_numeric( $number ) ) {
-			throw new Exception\NTWIndiaException( 'Valid number not given.' );
+			throw new Exception\NTWIndiaInvalidNumber( 'Valid number not given.' );
 		}
 		$number = floor( abs( $number ) );
 
 		// Check if number is greater than 99
-		// If so, then further breaking is needed
+		// If so, then just throw an exception
 		if ( $number > 99 ) {
-			return $this->convertNumber( $number );
+			throw new Exception\NTWIndiaNumberOverflow( 'Number is greater than 99. Use numToWord method.' );
 		}
 
 		// Calculate the last character beforehand
