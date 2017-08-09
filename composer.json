@@ -5,9 +5,8 @@
 		"phpunit/phpunit": "^6.0"
 	},
 	"autoload": {
-	   "psr-0": {
-		   "ntwIndia": ""
-	   },
-	   "files": ["ntwIndia/class-ntw-india.php"]
+	   "psr-4": {
+		   "ntwIndia\\": "src/"
+	   }
 	}
 }

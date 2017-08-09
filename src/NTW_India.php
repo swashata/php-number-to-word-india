@@ -6,7 +6,7 @@ namespace ntwIndia;
  * PHP Library
  *
  * @author Swashata Ghosh <swashata@iptms.co>
- * @license GPLv3
+ * @license GPL-v3.0
  */
 class NTW_India {
 	/**
