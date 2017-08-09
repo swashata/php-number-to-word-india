@@ -49,7 +49,7 @@ require_once 'src/Exception/NTWIndiaNumberOverflow.php';
 
 ```php
 <?php
-$ntw = new \ntwIndia\NTW_India();
+$ntw = new \NTWIndia\NTWIndia();
 ```
 
 **Convert values**
@@ -108,11 +108,11 @@ first letter.
 
 Two exceptions are thrown depending on the condition.
 
-### `NTWIndia\Exception\NTWIndiaInvalidNumber`
+### `\NTWIndia\Exception\NTWIndiaInvalidNumber`
 
 If you pass a variable to a method which isn't a valid number `( ! is_numeric( $number ) )`
 
-### `NTWIndia\Exception\NTWIndiaNumberOverflow`
+### `\NTWIndia\Exception\NTWIndiaNumberOverflow`
 
 If pass a number which exceeds the limit.
 
