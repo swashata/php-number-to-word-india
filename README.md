@@ -12,7 +12,19 @@ numbers including floats. A few examples.
 * `1,234,567,890` - **One Hundred And Twenty Three Crore Forty Five Lakh Sixty Seven Thousand Eight Hundred And Ninty**
 * `5,024.78` - **Five Thousand Twenty Four And 78/100**
 
-## Usage
+## Installation
+
+### Using Composer
+
+Navigate to your project directory and execute
+
+`composer require ntwindia/ntwindia`
+
+If you haven't already, include the composer `autoload.php` file.
+
+```php
+require_once 'vendor/autoload.php';
+```
 
 ### Manual Installation
 
@@ -27,7 +39,11 @@ git clone git@github.com:swashata/php-number-to-word-india.git
 ```php
 <?php
 require_once 'src/NTWIndia.php';
+require_once 'src/Exception/NTWIndiaInvalidNumber.php';
+require_once 'src/Exception/NTWIndiaNumberOverflow.php';
 ```
+
+## Usage
 
 **Create an instance**
 
@@ -87,6 +103,21 @@ Use this when you know your number is lesser than 100 to reduce memory usage.
 
 Returns `string` The word value of the number. All of the words have uppercased
 first letter.
+
+## Exception Handling
+
+Two exceptions are thrown depending on the condition.
+
+### `NTWIndia\Exception\NTWIndiaInvalidNumber`
+
+If you pass a variable to a method which isn't a valid number `( ! is_numeric( $number ) )`
+
+### `NTWIndia\Exception\NTWIndiaNumberOverflow`
+
+If pass a number which exceeds the limit.
+
+* For `numToWord` it is the `PHP_MAX_INT`.
+* For `numToWordSmall` it is `99`.
 
 ## Translation
 
